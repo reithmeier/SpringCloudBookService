@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+  mysql:
+    image: mariadb:10.3.10
+    container_name: mysql
+    ports:
+      - 127.0.0.1:3306:3306
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=books_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pw
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
