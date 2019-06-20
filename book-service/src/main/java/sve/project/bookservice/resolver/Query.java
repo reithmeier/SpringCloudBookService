@@ -7,20 +7,20 @@ import sve.project.bookservice.service.BookService;
 
 @Component
 public class Query implements GraphQLQueryResolver {
-    private final BookService repository;
+    private final BookService service;
 
-    public Query(BookService repository) {
-        this.repository = repository;
+    public Query(BookService service) {
+        this.service = service;
     }
 
     //allBooks : [Book]
     public Iterable<Book> allBooks(){
-        return repository.getBooks();
+        return service.getBooks();
     }
 
     //book(id:ID!) : Book
     public Book book(Long id){
-        return repository.getBookById(id);
+        return service.getBookById(id);
     }
 
 }
