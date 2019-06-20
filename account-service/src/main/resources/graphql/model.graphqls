@@ -1,0 +1,37 @@
+type Address{
+    id:ID!
+    country:String
+    zip:String
+    town:String
+    street:String
+    house:String
+}
+
+type User{
+    id:ID!
+    name: String
+    firstName: String
+    lastName: String
+    addresses: [Address]
+}
+
+type Query{
+    allUsers: [User]
+    allAddresses: [Address]
+    user(id:ID!): User
+    address(id:ID!): Address
+}
+
+input AddressInput{
+    country:String
+    zip:String
+    town:String
+    street:String
+    house:String
+}
+
+
+type Mutation{
+    addUser(name: String, firsName: String, lastName:String) : User
+    addAddressToUser(userId:ID, address:AddressInput): Address
+}
