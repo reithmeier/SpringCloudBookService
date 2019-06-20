@@ -3,6 +3,7 @@ package sve.project.bookservice;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import sve.project.bookservice.domain.Author;
 import sve.project.bookservice.domain.Book;
@@ -13,6 +14,7 @@ import sve.project.bookservice.service.PublisherService;
 
 import java.util.Optional;
 
+@EnableDiscoveryClient
 @SpringBootApplication
 public class BookServiceApplication {
 

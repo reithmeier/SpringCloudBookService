@@ -3,6 +3,7 @@ package sve.project.orderingservice;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import sve.project.orderingservice.domain.Book;
 import sve.project.orderingservice.domain.OrderEntry;
@@ -11,6 +12,7 @@ import sve.project.orderingservice.service.BookService;
 import sve.project.orderingservice.service.OrderService;
 import sve.project.orderingservice.service.UserService;
 
+@EnableDiscoveryClient
 @SpringBootApplication
 public class OrderingServiceApplication {
 
