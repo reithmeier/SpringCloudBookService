@@ -2,17 +2,32 @@ version: '3'
 services:
   mongo:
     image: mongo
-    container_name: mongo
+    container_name: mongo_db
     ports:
       - 27017:27017
-  mysql:
+      
+  books_db:
     image: mariadb:10.3.10
-    container_name: mysql
+    container_name: books_db
     ports:
       - 127.0.0.1:3306:3306
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=books_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pw
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  orders_db:
+    image: mariadb:10.3.10
+    container_name: orders_db
+    ports:
+      - 127.0.0.1:3307:3306
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=orders_db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=pw
     volumes:

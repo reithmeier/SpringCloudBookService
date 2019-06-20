@@ -1,0 +1,26 @@
+type Book{
+    id:ID!
+    name:String!
+}
+
+type User{
+    id:ID!
+    name:String!
+}
+
+type OrderEntry{
+    id:ID!
+    book:Book!
+    user:User!
+    date:String!
+}
+
+type Query{
+    allOrders : [OrderEntry]
+    orderEntry(id:ID!) : OrderEntry
+}
+
+type Mutation{
+    addOrder(date:String, userId:ID!, bookId:ID!) : OrderEntry
+    cancleOrder(id:ID): OrderEntry
+}
