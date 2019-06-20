@@ -48,8 +48,8 @@ public class BookServiceApplication {
             bookService.saveBook(book4);
 */
             System.out.println("Book id=5");
-            Optional<Book> obj = bookService.getBookById(5L);
-            obj.ifPresent(System.out::println);
+            Book obj = bookService.getBookById(5L);
+            System.out.println(obj);
 
             System.out.println("AllBooks");
             Iterable<Book> books = bookService.getBooks();
