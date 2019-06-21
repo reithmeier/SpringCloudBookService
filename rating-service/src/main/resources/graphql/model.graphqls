@@ -1,0 +1,26 @@
+type Book{
+    id:ID!
+    name:String!
+}
+
+type User{
+    id:ID!
+    name:String!
+}
+
+type Rating{
+    id:ID!
+    book:Book!
+    user:User!
+    value:Int!
+}
+
+type Query{
+    allRatings : [Rating]
+    rating(id:ID!) : Rating
+}
+
+type Mutation{
+    addRating(value:Int, userId:ID!, bookId:ID!) : Rating
+    removeRating(id:ID): Rating
+}
