@@ -1,5 +1,19 @@
 version: '3'
 services:
+
+  rabbitmq-server:
+    image: rabbitmq:3.7.8-management
+    container_name: rabbitmq_server
+    hostname: "rabbitmq-server"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    ports:
+      - "0.0.0.0:15672:15672"
+      - "0.0.0.0:5672:5672"
+    labels:
+      NAME: "rabbitmq-server"
+
   mongo:
     image: mongo
     container_name: mongo_db

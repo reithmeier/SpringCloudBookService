@@ -49,10 +49,6 @@ public class BookServiceApplication {
             bookService.saveBook(book3);
             bookService.saveBook(book4);
 */
-            System.out.println("Book id=5");
-            Book obj = bookService.getBookById(5L);
-            System.out.println(obj);
-
             System.out.println("AllBooks");
             Iterable<Book> books = bookService.getBooks();
             books.forEach(System.out::println);
