@@ -6,4 +6,7 @@ import org.springframework.messaging.MessageChannel;
 public interface UserEventSource {
     @Output("userChannel")
     MessageChannel userEvent();
+
+    @Output("userRatingChannel")
+    MessageChannel userRating();
 }

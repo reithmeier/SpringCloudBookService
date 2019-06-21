@@ -18,12 +18,14 @@ public class Sender {
     public BookEvent sendCreateBook(Book book) {
         BookEvent bookEvent = new BookEvent(book, BookEvent.Action.CREATE);
         bookEventSource.bookEvent().send(MessageBuilder.withPayload(bookEvent).build());
+        bookEventSource.bookRating().send(MessageBuilder.withPayload(bookEvent).build());
         return bookEvent;
     }
 
     public BookEvent sendDeleteBook(Book book) {
         BookEvent bookEvent = new BookEvent(book, BookEvent.Action.DELETE);
         bookEventSource.bookEvent().send(MessageBuilder.withPayload(bookEvent).build());
+        bookEventSource.bookRating().send(MessageBuilder.withPayload(bookEvent).build());
         return bookEvent;
     }
 }

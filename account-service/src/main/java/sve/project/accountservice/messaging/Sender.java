@@ -17,6 +17,7 @@ public class Sender {
     public UserEvent sendCreateUser(User user) {
         UserEvent userEvent = new UserEvent(user, UserEvent.Action.CREATE);
         userEventSource.userEvent().send(MessageBuilder.withPayload(userEvent).build());
+        userEventSource.userRating().send(MessageBuilder.withPayload(userEvent).build());
         System.out.println("Sent " + userEvent);
         return userEvent;
     }
@@ -24,6 +25,7 @@ public class Sender {
     public UserEvent sendDeleteUser(User user) {
         UserEvent userEvent = new UserEvent(user, UserEvent.Action.DELETE);
         userEventSource.userEvent().send(MessageBuilder.withPayload(userEvent).build());
+        userEventSource.userRating().send(MessageBuilder.withPayload(userEvent).build());
         return userEvent;
     }
 }
