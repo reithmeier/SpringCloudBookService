@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sve.project.orderingservice.domain.Book;
 import sve.project.orderingservice.domain.OrderEntry;
 import sve.project.orderingservice.domain.User;
+import sve.project.orderingservice.messaging.Sender;
 import sve.project.orderingservice.repos.BookRepository;
 import sve.project.orderingservice.repos.OrderRepository;
 import sve.project.orderingservice.repos.UserRepository;
@@ -18,12 +19,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final Sender sender;
 
 
-    public OrderService(OrderRepository orderRepository, BookRepository bookRepository, UserRepository userRepository) {
+    public OrderService(OrderRepository orderRepository, BookRepository bookRepository, UserRepository userRepository, Sender sender) {
         this.orderRepository = orderRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.sender = sender;
     }
 
     @Transactional
@@ -42,7 +45,9 @@ public class OrderService {
 
     @Transactional
     public OrderEntry saveOrder(OrderEntry orderEntry) {
-        return orderRepository.save(orderEntry);
+        OrderEntry order = orderRepository.save(orderEntry);
+        sender.sendCreateOrder(order);
+        return order;
     }
 
     @Transactional
@@ -58,6 +63,7 @@ public class OrderService {
 
         OrderEntry orderEntry = new OrderEntry(date, book.get(), user.get());
         orderRepository.save(orderEntry);
+        sender.sendCreateOrder(orderEntry);
         return orderEntry;
     }
 
@@ -66,6 +72,7 @@ public class OrderService {
         Optional<OrderEntry> order = orderRepository.findById(id);
         if (order.isPresent()) {
             orderRepository.delete(order.get());
+            sender.sendDeleteOrder(order.get());
             return order.get();
         }
         throw new RuntimeException("Not found");

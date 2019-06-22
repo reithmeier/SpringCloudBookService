@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sve.project.ratingservice.domain.Book;
 import sve.project.ratingservice.domain.Rating;
 import sve.project.ratingservice.domain.User;
+import sve.project.ratingservice.messaging.Sender;
 import sve.project.ratingservice.repos.BookRepository;
 import sve.project.ratingservice.repos.RatingRepository;
 import sve.project.ratingservice.repos.UserRepository;
@@ -18,12 +19,14 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final Sender sender;
 
 
-    public RatingService(RatingRepository ratingRepository, BookRepository bookRepository, UserRepository userRepository) {
+    public RatingService(RatingRepository ratingRepository, BookRepository bookRepository, UserRepository userRepository, Sender sender) {
         this.ratingRepository = ratingRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.sender = sender;
     }
 
     @Transactional
@@ -42,7 +45,9 @@ public class RatingService {
 
     @Transactional
     public Rating saveRating(Rating ratingEntry) {
-        return ratingRepository.save(ratingEntry);
+        Rating rating = ratingRepository.save(ratingEntry);
+        sender.sendCreateRating(ratingEntry);
+        return rating;
     }
 
     @Transactional
@@ -58,6 +63,7 @@ public class RatingService {
 
         Rating ratingEntry = new Rating(value, book.get(), user.get());
         ratingRepository.save(ratingEntry);
+        sender.sendCreateRating(ratingEntry);
         return ratingEntry;
     }
 
@@ -66,6 +72,7 @@ public class RatingService {
         Optional<Rating> rating = ratingRepository.findById(id);
         if (rating.isPresent()) {
             ratingRepository.delete(rating.get());
+            sender.sendDeleteRating(rating.get());
             return rating.get();
         }
         throw new RuntimeException("Not found");
