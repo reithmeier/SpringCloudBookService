@@ -1,0 +1,31 @@
+
+type OrderByRating{
+    rating:Int!
+    orders:Int!
+}
+
+type OrdersPerDay{
+    orders:Int!
+    day:String!
+}
+
+type Book{
+    id:ID!
+    ratingSum: Int!
+    ratingCount: Int!
+    orderSum: Int!
+}
+
+type User{
+    id:ID!
+    orderSum: Int!
+    ratingSum: Int!
+    ratingCount: Int!
+}
+
+type Query{
+    orderByRating: [OrderByRating]
+    avgOrderPerUser: Float
+    ordersPerDay: [OrdersPerDay]
+}
+
