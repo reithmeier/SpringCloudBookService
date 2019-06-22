@@ -3,6 +3,7 @@ package sve.project.ratingservice;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import sve.project.ratingservice.domain.Book;
 import sve.project.ratingservice.domain.Rating;
@@ -11,6 +12,7 @@ import sve.project.ratingservice.service.BookService;
 import sve.project.ratingservice.service.RatingService;
 import sve.project.ratingservice.service.UserService;
 
+@EnableDiscoveryClient
 @SpringBootApplication
 public class RatingServiceApplication {
 
