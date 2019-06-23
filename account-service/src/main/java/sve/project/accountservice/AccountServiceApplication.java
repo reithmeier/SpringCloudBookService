@@ -1,10 +1,12 @@
 package sve.project.accountservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import sve.project.accountservice.domain.Address;
 import sve.project.accountservice.domain.User;
 import sve.project.accountservice.service.AddressService;
@@ -18,6 +20,8 @@ public class AccountServiceApplication {
         SpringApplication.run(AccountServiceApplication.class, args);
     }
 
+    @Autowired
+    private Environment env;
 
     @Bean
     CommandLineRunner init(AddressService addressService, UserService userService) {
@@ -45,6 +49,9 @@ public class AccountServiceApplication {
             System.out.println("All ");
             Iterable<User> all2 = userService.getUsers();
             all2.forEach(System.out::println);
+
+
+            System.out.println(env.getProperty("test.prop"));
 
         };
 
