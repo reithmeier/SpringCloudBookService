@@ -38,5 +38,8 @@ public class Query implements GraphQLQueryResolver {
     }
 
 
+    public Boolean hystrixDebug() throws Exception {
+        throw new Exception("hystrix debug");
+    }
 }
 

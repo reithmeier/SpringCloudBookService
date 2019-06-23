@@ -20,6 +20,7 @@ type Query{
     allAddresses: [Address]
     user(id:ID!): User
     address(id:ID!): Address
+    hystrixDebug:Boolean
 }
 
 input AddressInput{
