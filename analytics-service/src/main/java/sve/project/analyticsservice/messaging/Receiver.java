@@ -86,11 +86,15 @@ public class Receiver {
         }
 
         if (event.getAction() == Action.CREATE) {
-            book.setOrderSum(book.getOrderSum() + 1);
-            user.setOrderSum(user.getOrderSum() + 1);
+            book.setRatingCount(book.getRatingCount() + 1);
+            book.setRatingSum(book.getRatingSum() + event.getValue());
+            user.setRatingCount(book.getRatingCount() + 1);
+            user.setRatingSum(book.getRatingSum() + event.getValue());
         } else if (event.getAction() == Action.DELETE) {
-            book.setOrderSum(book.getOrderSum() - 1);
-            user.setOrderSum(user.getOrderSum() - 1);
+            book.setRatingCount(book.getRatingCount() - 1);
+            book.setRatingSum(book.getRatingSum() - event.getValue());
+            user.setRatingCount(book.getRatingCount() - 1);
+            user.setRatingSum(book.getRatingSum() - event.getValue());
         }
 
         bookService.saveBook(book);
