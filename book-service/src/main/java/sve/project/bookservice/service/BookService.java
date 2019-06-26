@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sve.project.bookservice.domain.Author;
 import sve.project.bookservice.domain.Book;
 import sve.project.bookservice.domain.Publisher;
+import sve.project.bookservice.exception.NotFoundException;
 import sve.project.bookservice.messaging.Sender;
 import sve.project.bookservice.repos.AuthorRepository;
 import sve.project.bookservice.repos.BookRepository;
@@ -38,7 +39,7 @@ public class BookService {
     public Book getBookById(Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (!book.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, Book.class.getSimpleName());
         }
         return book.get();
     }
@@ -54,16 +55,12 @@ public class BookService {
     public Book saveBook(String name, Long authorId, Long publisherId) {
         Optional<Author> author = authorRepository.findById(authorId);
         Optional<Publisher> publisher = publisherRepository.findById(publisherId);
-        /*
-        Iterable<Author> authors = authorRepository.findAll();
-        System.out.println("all authors");
-        authors.forEach(System.out::println);
-        Iterable<Publisher> publishers = publisherRepository.findAll();
-        System.out.println("all publishers");
-        authors.forEach(System.out::println);
-        */
-        if (!(author.isPresent() && publisher.isPresent())) {
-            throw new RuntimeException("Not found");
+
+        if(!author.isPresent()){
+            throw new NotFoundException(authorId, Author.class.getSimpleName());
+        }
+        if(!publisher.isPresent()){
+            throw new NotFoundException(publisherId, Publisher.class.getSimpleName());
         }
 
         Book book = new Book(name, author.get(), publisher.get());
@@ -82,6 +79,6 @@ public class BookService {
             sender.sendDeleteBook(book.get());
             return book.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, Book.class.getSimpleName());
     }
 }

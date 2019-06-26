@@ -4,6 +4,8 @@ package sve.project.analyticsservice.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sve.project.analyticsservice.domain.AnalyticsResult;
+import sve.project.analyticsservice.exception.NoEntryException;
+import sve.project.analyticsservice.exception.NotFoundException;
 import sve.project.analyticsservice.repos.AnalyticsResultRepository;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class AnalyticsResultService {
     public AnalyticsResult getLatestAnalytics() {
         List<AnalyticsResult> analyticsResult = analyticsResultRepository.findAll();
         if (analyticsResult.isEmpty()) {
-            throw new RuntimeException("Not found");
+            throw new NoEntryException(AnalyticsResult.class.getSimpleName());
         }
         AnalyticsResult latest = analyticsResult.get(analyticsResult.size() - 1);
         System.out.println(latest.getTimestamp());
@@ -47,6 +49,6 @@ public class AnalyticsResultService {
             analyticsResultRepository.delete(analyticsResult.get());
             return analyticsResult.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, AnalyticsResult.class.getSimpleName());
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sve.project.orderingservice.domain.Book;
 import sve.project.orderingservice.domain.OrderEntry;
 import sve.project.orderingservice.domain.User;
+import sve.project.orderingservice.exception.NotFoundException;
 import sve.project.orderingservice.messaging.Sender;
 import sve.project.orderingservice.repos.BookRepository;
 import sve.project.orderingservice.repos.OrderRepository;
@@ -38,7 +39,7 @@ public class OrderService {
     public OrderEntry getOrderById(Long id) {
         Optional<OrderEntry> order = orderRepository.findById(id);
         if (!order.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, OrderEntry.class.getSimpleName());
         }
         return order.get();
     }
@@ -55,10 +56,11 @@ public class OrderService {
         Optional<Book> book = bookRepository.findById(bookId);
         Optional<User> user = userRepository.findById(userId);
 
-        if (!(book.isPresent() && user.isPresent())
-                || book.get().getDeleted()
-                || user.get().getDeleted()) {
-            throw new RuntimeException("Not found");
+        if(!book.isPresent() || book.get().getDeleted()){
+            throw new NotFoundException(bookId, Book.class.getSimpleName());
+        }
+        if(!user.isPresent() || user.get().getDeleted()){
+            throw new NotFoundException(userId, User.class.getSimpleName());
         }
 
         OrderEntry orderEntry = new OrderEntry(date, book.get(), user.get());
@@ -75,6 +77,6 @@ public class OrderService {
             sender.sendDeleteOrder(order.get());
             return order.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, OrderEntry.class.getSimpleName());
     }
 }

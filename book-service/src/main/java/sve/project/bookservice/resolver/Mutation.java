@@ -3,6 +3,7 @@ package sve.project.bookservice.resolver;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import org.springframework.stereotype.Component;
 import sve.project.bookservice.domain.Book;
+import sve.project.bookservice.exception.NotFoundException;
 import sve.project.bookservice.service.BookService;
 
 @Component

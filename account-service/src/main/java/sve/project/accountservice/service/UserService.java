@@ -4,6 +4,7 @@ package sve.project.accountservice.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sve.project.accountservice.domain.User;
+import sve.project.accountservice.exception.NotFoundException;
 import sve.project.accountservice.messaging.Sender;
 import sve.project.accountservice.repos.UserRepository;
 import sve.project.accountservice.repos.AddressRepository;
@@ -32,7 +33,7 @@ public class UserService {
     public User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, User.class.getSimpleName());
         }
         return user.get();
     }
@@ -60,6 +61,6 @@ public class UserService {
             sender.sendDeleteUser(user.get());
             return user.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, User.class.getSimpleName());
     }
 }

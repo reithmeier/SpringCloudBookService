@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sve.project.ratingservice.domain.Book;
 import sve.project.ratingservice.domain.Rating;
 import sve.project.ratingservice.domain.User;
+import sve.project.ratingservice.exception.NotFoundException;
 import sve.project.ratingservice.messaging.Sender;
 import sve.project.ratingservice.repos.BookRepository;
 import sve.project.ratingservice.repos.RatingRepository;
@@ -38,7 +39,7 @@ public class RatingService {
     public Rating getRatingById(Long id) {
         Optional<Rating> rating = ratingRepository.findById(id);
         if (!rating.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, Rating.class.getSimpleName());
         }
         return rating.get();
     }
@@ -55,10 +56,11 @@ public class RatingService {
         Optional<Book> book = bookRepository.findById(bookId);
         Optional<User> user = userRepository.findById(userId);
 
-        if (!(book.isPresent() && user.isPresent())
-                || book.get().getDeleted()
-                || user.get().getDeleted()) {
-            throw new RuntimeException("Not found");
+        if(!book.isPresent() || book.get().getDeleted()){
+            throw new NotFoundException(bookId, Book.class.getSimpleName());
+        }
+        if(!user.isPresent() || user.get().getDeleted()){
+            throw new NotFoundException(userId, User.class.getSimpleName());
         }
 
         Rating ratingEntry = new Rating(value, book.get(), user.get());
@@ -75,6 +77,6 @@ public class RatingService {
             sender.sendDeleteRating(rating.get());
             return rating.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, Rating.class.getSimpleName());
     }
 }

@@ -3,7 +3,9 @@ package sve.project.analyticsservice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sve.project.analyticsservice.domain.Book;
 import sve.project.analyticsservice.domain.OrderEntry;
+import sve.project.analyticsservice.exception.NotFoundException;
 import sve.project.analyticsservice.repos.OrderEntryRepository;
 
 import java.util.Optional;
@@ -27,7 +29,7 @@ public class OrderService {
     public OrderEntry getOrderById(Long id) {
         Optional<OrderEntry> order = orderEntryRepository.findById(id);
         if (!order.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, OrderEntry.class.getSimpleName());
         }
         return order.get();
     }
@@ -51,6 +53,6 @@ public class OrderService {
             orderEntryRepository.delete(order.get());
             return order.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, OrderEntry.class.getSimpleName());
     }
 }

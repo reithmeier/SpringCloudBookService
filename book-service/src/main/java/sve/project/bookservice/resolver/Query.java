@@ -3,6 +3,7 @@ package sve.project.bookservice.resolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import org.springframework.stereotype.Component;
 import sve.project.bookservice.domain.Book;
+import sve.project.bookservice.exception.NotFoundException;
 import sve.project.bookservice.service.BookService;
 
 @Component
@@ -19,7 +20,7 @@ public class Query implements GraphQLQueryResolver {
     }
 
     //book(id:ID!) : Book
-    public Book book(Long id){
+    public Book book(Long id) {
         return service.getBookById(id);
     }
 

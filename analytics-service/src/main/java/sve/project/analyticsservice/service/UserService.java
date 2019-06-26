@@ -3,7 +3,9 @@ package sve.project.analyticsservice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sve.project.analyticsservice.domain.OrderEntry;
 import sve.project.analyticsservice.domain.User;
+import sve.project.analyticsservice.exception.NotFoundException;
 import sve.project.analyticsservice.repos.UserRepository;
 
 import java.util.Optional;
@@ -27,7 +29,7 @@ public class UserService {
     public User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, User.class.getSimpleName());
         }
         return user.get();
     }
@@ -51,6 +53,6 @@ public class UserService {
             userRepository.delete(user.get());
             return user.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, User.class.getSimpleName());
     }
 }

@@ -4,6 +4,7 @@ package sve.project.analyticsservice.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sve.project.analyticsservice.domain.Book;
+import sve.project.analyticsservice.exception.NotFoundException;
 import sve.project.analyticsservice.repos.BookRepository;
 
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class BookService {
     public Book getBookById(Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (!book.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, Book.class.getSimpleName());
         }
         return book.get();
     }
@@ -51,6 +52,6 @@ public class BookService {
             bookRepository.delete(book.get());
             return book.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, Book.class.getSimpleName());
     }
 }

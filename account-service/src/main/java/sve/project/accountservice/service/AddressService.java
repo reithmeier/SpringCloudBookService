@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import sve.project.accountservice.domain.Address;
 import sve.project.accountservice.domain.User;
+import sve.project.accountservice.exception.NotFoundException;
 import sve.project.accountservice.repos.AddressRepository;
 import sve.project.accountservice.repos.UserRepository;
 
@@ -31,7 +32,7 @@ public class AddressService {
     public Address getAddressById(Long id) {
         Optional<Address> address = addressRepository.findById(id);
         if (!address.isPresent()) {
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(id, Address.class.getSimpleName());
         }
         return address.get();
     }
@@ -56,14 +57,14 @@ public class AddressService {
             addressRepository.delete(address.get());
             return address.get();
         }
-        throw new RuntimeException("Not found");
+        throw new NotFoundException(id, Address.class.getSimpleName());
     }
 
     @Transactional
     public Address addAddressToUser(Long userId, Address address) {
         Optional<User> userOpt = userRepository.findById(userId);
         if(!userOpt.isPresent()){
-            throw new RuntimeException("Not found");
+            throw new NotFoundException(userId, User.class.getSimpleName());
         }
         User user = userOpt.get();
 
