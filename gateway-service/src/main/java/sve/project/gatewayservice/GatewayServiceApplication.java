@@ -74,6 +74,15 @@ public class GatewayServiceApplication {
                                         .setName("fallbackCmd")
                                         .setFallbackUri("forward:/hystrixfallback")))
                         .uri("lb://SVE.PROJECT.RATINGSERVICE/graphql"))
+
+                //test hystrix
+                .route("test-hystrix", r -> r
+                .path("/hystrix")
+                .filters(f -> f
+                        .hystrix(c -> c
+                                .setName("fallbackCmd")
+                                .setFallbackUri("forward:/hystrixfallback")))
+                .uri("lb://SVE.PROJECT.GATEWAYSERVICE/test"))
                 .build();
     }
 

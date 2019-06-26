@@ -1,4 +1,4 @@
-package sve.project.gatewayservice;
+package sve.project.gatewayservice.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +11,7 @@ public class FallbackController {
     @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "service unavailable")
     @RequestMapping("/hystrixfallback")
     public String hystrixfallback() {
-        //throw new ServiceUnavailableException("account-service unavailable");
-        return "service unavailable";
+        return "service unavailable (fallback)";
     }
 
 }
