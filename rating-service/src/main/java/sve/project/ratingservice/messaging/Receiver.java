@@ -9,7 +9,7 @@ import sve.project.ratingservice.messaging.events.UserEvent;
 import sve.project.ratingservice.service.BookService;
 import sve.project.ratingservice.service.UserService;
 
-@EnableBinding(RatingEventSink.class)
+@EnableBinding(EventSink.class)
 public class Receiver {
 
 
@@ -21,7 +21,7 @@ public class Receiver {
         this.userService = userService;
     }
 
-    @StreamListener(value = "bookRatingChannel")
+    @StreamListener(value = "bookChannel")
     public void receiveBook(BookEvent event) {
         Book book = event.toBook();
         bookService.saveBook(book);
@@ -29,7 +29,7 @@ public class Receiver {
     }
 
 
-    @StreamListener(value = "userRatingChannel")
+    @StreamListener(value = "userChannel")
     public void receiveUser(UserEvent event) {
         User user = event.toUser();
         userService.saveUser(user);

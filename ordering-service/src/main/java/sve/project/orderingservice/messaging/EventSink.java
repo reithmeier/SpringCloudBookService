@@ -3,7 +3,7 @@ package sve.project.orderingservice.messaging;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;
 
-public interface OrderEventSink {
+public interface EventSink {
     @Input("bookChannel")
     SubscribableChannel bookEvent();
 

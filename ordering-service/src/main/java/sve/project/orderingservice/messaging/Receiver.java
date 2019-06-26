@@ -9,7 +9,7 @@ import sve.project.orderingservice.messaging.events.UserEvent;
 import sve.project.orderingservice.service.BookService;
 import sve.project.orderingservice.service.UserService;
 
-@EnableBinding(OrderEventSink.class)
+@EnableBinding(EventSink.class)
 public class Receiver {
 
 

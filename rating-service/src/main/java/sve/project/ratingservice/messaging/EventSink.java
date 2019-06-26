@@ -3,11 +3,11 @@ package sve.project.ratingservice.messaging;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;
 
-public interface RatingEventSink {
-    @Input("bookRatingChannel")
+public interface EventSink {
+    @Input("bookChannel")
     SubscribableChannel bookEvent();
 
-    @Input("userRatingChannel")
+    @Input("userChannel")
     SubscribableChannel userEvent();
 
 }
