@@ -1,6 +1,11 @@
 # project-reithmeier
 
 
+## Disclaimer 
+
+This is a student project for the University of Applied Sciences Upper Austria.
+
+
 ## Description
 Microservices for Books, Users, Orders, Rating, Analytics. Users and Books can be administered. 
 User order and rate books. Orders and ratings can be analysed. 
